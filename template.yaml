@@ -11,12 +11,18 @@ Globals:
 Resources:
   AuthFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: go1.x
     Properties:
       CodeUri: auth/
       Handler: auth
-      Runtime: go1.x
+      Runtime: provided.al2023
+      Timeout: 3
       Architectures:
         - x86_64
+      Environment:
+        Variables:
+          API_URL: https://nstechchallenge3dagquh0-tech-challenge-api.functions.fnc.fr-par.scw.cloud
       Events:
         CatchAll:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
