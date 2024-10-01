@@ -28,11 +28,12 @@ jobs:
 
       - name: Build Go code
         run: |
-          GOOS=linux GOARCH=amd64 go build -o bootstrap -tags lambda.norpc auth/main.go
+          cd auth
+          GOOS=linux GOARCH=amd64 go build -o bootstrap -tags lambda.norpc main.go
           zip function.zip bootstrap
 
       - name: Deploy Lambda function
         run: |
           aws lambda update-function-code \
             --function-name ${{ secrets.LAMBDA_FUNCTION_NAME }} \
-            --zip-file fileb://function.zip
+            --zip-file fileb://auth/function.zip
