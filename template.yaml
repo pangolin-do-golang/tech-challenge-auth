@@ -37,7 +37,7 @@ Outputs:
   AuthAPI:
     Description: "API Gateway endpoint URL for Prod environment for Auth Function"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/auth/"
-  HelloWorldFunction:
+  AuthFunction:
     Description: "Auth API for tech-challenge"
     Value: "AuthFunction"
   AuthFunctionIamRole:
