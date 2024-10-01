@@ -44,14 +44,35 @@ func parseRequest(header string) error {
 	return getUser(string(decodedIdentifier))
 }
 
-func handler(request events.APIGatewayCustomAuthorizerRequestTypeRequest) (response bool, err error) {
+func handler(request events.APIGatewayCustomAuthorizerRequestTypeRequest) (response *events.APIGatewayCustomAuthorizerResponse, err error) {
 	log.Println("Evento recebido: ", request)
 
-	err = parseRequest(request.Headers["authorization"])
+	effect := "Allow"
+	header := func() string {
+		if request.Headers["Authorization"] != "" {
+			return request.Headers["Authorization"]
+		}
+		return request.Headers["authorization"]
+	}()
+	err = parseRequest(header)
 	if err != nil {
-		return false, nil
+		effect = "Deny"
 	}
-	return true, nil
+
+	log.Println(err)
+
+	return &events.APIGatewayCustomAuthorizerResponse{
+		PolicyDocument: events.APIGatewayCustomAuthorizerPolicy{
+			Version: "2012-10-17",
+			Statement: []events.IAMPolicyStatement{
+				{
+					Action:   []string{"execute-api:Invoke"},
+					Effect:   effect,
+					Resource: []string{request.MethodArn},
+				},
+			},
+		},
+	}, nil
 }
 
 func main() {
