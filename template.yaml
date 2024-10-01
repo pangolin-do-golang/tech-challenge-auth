@@ -22,7 +22,7 @@ Resources:
         - x86_64
       Environment:
         Variables:
-          API_URL: https://nstechchallenge3dagquh0-tech-challenge-api.functions.fnc.fr-par.scw.cloud
+          API_URL: http://k8s-ingressn-external-32d23741d8-d3d2a1020869e40e.elb.us-east-1.amazonaws.com
       Events:
         CatchAll:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
